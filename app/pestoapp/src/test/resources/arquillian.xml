@@ -1,0 +1,51 @@
+<arquillian
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://jboss.org/schema/arquillian"
+        xsi:schemaLocation="http://jboss.org/schema/arquillian
+    http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+    <defaultProtocol type="Servlet 5.0"/>
+
+    <engine>
+        <property name="deploymentExportPath">target/</property>
+    </engine>
+
+    <!-- Configuration to be used when the WidlFly remote profile is active -->
+    <!--    <container qualifier="wildfly-remote">-->
+    <!--        <configuration>-->
+    <!--            <property name="managementAddress">127.0.0.1</property>-->
+    <!--            <property name="managementPort">9990</property>-->
+    <!--            <property name="protocol">http-remoting</property>-->
+    <!--            <property name="username">admin</property>-->
+    <!--            <property name="password">Admin@123</property>-->
+    <!--        </configuration>-->
+    <!--    </container>-->
+
+    <!-- Configuration to be used when the WildFly managed profile is active -->
+    <!--<container qualifier="wildfly-managed">
+        <configuration>
+            <property name="jbossHome">${jbossHome:target/wildfly-18.0.1.Final}</property>
+        </configuration>
+    </container>-->
+    <extension qualifier="jacoco">
+           <property name="includes">com.example.*</property>
+           <property name="excludes"></property>
+           <property name="appendAsmLibrary">true</property>         
+    </extension>
+    <container qualifier="arq-weld">
+        <configuration>
+            <property name="enableConversationScope">true</property>
+            <property name="environment">SE</property>
+        </configuration>
+    </container>
+    <container qualifier="arq-jetty-embedded">
+        <configuration>
+          <property name="bindHttpPort">8080</property>
+          <!-- <property name="realmProperties">src/test/resources/jetty-realm.properties</property>
+          <property name="mimeTypes">
+            js application/js
+            txt text/plain
+          </property> -->
+        </configuration>
+      </container>
+</arquillian>
