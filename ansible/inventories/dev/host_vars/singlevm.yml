@@ -1,0 +1,4 @@
+vm_ip_address: 192.168.1.163
+ansible_host: 192.168.1.163
+ansible_user: pesto
+ansible_password: pesto

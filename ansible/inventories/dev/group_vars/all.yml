@@ -1,0 +1,3 @@
+ansible_connection: ssh
+ansible_user: pesto
+ansible_ssh_pass: pesto

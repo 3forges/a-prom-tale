@@ -24,7 +24,37 @@ Then for prometheus to be able to reach through network the tomcat:
 export PROMETHEUS_DOCK_NETWRK='dockprom_monitor-net'
 docker network connect ${PROMETHEUS_DOCK_NETWRK} tomcat
 
+# And you can test connection to endpoint:
+
 docker exec -it prometheus sh -c 'wget -S http://tomcat:8080/pestoapp/api/fruit'
+
+```
+
+* now in the tomcat contaienr we ssetup the tomcat prometheus exporter:
+
+```bash
+
+docker exec -it tomcat bash
+
+root@42e4ba17b2d9:/usr/local/tomcat# cat ./bin/setenv.sh
+CATALINA_OPTS="-javaagent:/opt/prometheus/jmx_prometheus_javaagent/jmx_prometheus_javaagent-1.0.1.jar=8088:/opt/prometheus/jmx_prometheus_javaagent/config.yml"
+root@42e4ba17b2d9:/usr/local/tomcat# ls -alh /opt/prometheus/jmx_prometheus_javaagent/jmx_prometheus_javaagent-1.0.1.jar
+-rw-r--r-- 1 ubuntu ubuntu 2.8M Nov  2 13:39 /opt/prometheus/jmx_prometheus_javaagent/jmx_prometheus_javaagent-1.0.1.jar
+root@42e4ba17b2d9:/usr/local/tomcat#
+
+```
+
+```bash
+curl -L https://raw.githubusercontent.com/prometheus/jmx_exporter/refs/tags/${JMX_EXPORTER_DESIRED_VERSION}/examples/tomcat.yml
+curl https://github.com/prometheus/jmx_exporter/blob/1.0.1/example_configs/tomcat.yml
+curl -L https://github.com/prometheus/jmx_exporter/blob/1.0.1/example_configs/tomcat.yml
+curl -L https://raw.githubusercontent.com/prometheus/jmx_exporter/refs/tags/1.0.1/example_configs/tomcat.yml
+curl -L https://raw.githubusercontent.com/prometheus/jmx_exporter/refs/tags/${JMX_EXPORTER_DESIRED_VERSION}/example_configs/tomcat.yml
+
+```
+
+
+```bash
 
 docker exec -it prometheus sh -c 'wget -S http://tomcat:8088/metrics'
 
