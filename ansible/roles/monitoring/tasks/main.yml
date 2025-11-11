@@ -66,7 +66,7 @@
      git clone https://github.com/stefanprodan/dockprom.git {{ monitoring_stack_home }}
      cd {{ monitoring_stack_home }}
      git checkout v{{ monitoring_stack_version }}
-     ADMIN_USER='admin' ADMIN_PASSWORD='admin' ADMIN_PASSWORD_HASH='$2a$14$1l.IozJx7xQRVmlkEQ32OeEEfP5mRxTpbDTCTcXRqn19gXD8YK1pO' docker-compose up -d
+     ADMIN_USER='admin' ADMIN_PASSWORD='admin' ADMIN_PASSWORD_HASH='$2a$14$1l.IozJx7xQRVmlkEQ32OeEEfP5mRxTpbDTCTcXRqn19gXD8YK1pO' docker-compose up -d --force-recreate
   register: deploy_monitoring_stack_output
 - name: Print deploy_monitoring_stack_output
   ansible.builtin.debug:
