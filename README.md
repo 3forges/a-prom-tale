@@ -87,4 +87,8 @@ ansible-playbook -vvv -i './inventories/dev/hosts.yml' \
   --vault-password-file ~/vault.key.sh \
   ./playbooks/monitoring/deploy.yml
 
+
+ansible-playbook -vvv -i './inventories/dev/hosts.yml' \
+  -e "some_var=$VALUE_OF_SOME_VAR" \
+  ./playbooks/monitoring/deploy.yml
 ```
