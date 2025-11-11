@@ -1,6 +1,7 @@
 ansible_connection: ssh
 ansible_user: pesto
 ansible_ssh_pass: pesto
+ansible_become_password: pesto
 
 monitoring_docker_network: dockprom_monitor-net
 monitoring_stack_home: /opt/dockprom

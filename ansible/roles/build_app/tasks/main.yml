@@ -1,8 +1,4 @@
 ---
-- name: Print fact os-distribution
-  ansible.builtin.debug:
-    var: os_type
-    verbosity: 2
 
 ###>####
 ###>####

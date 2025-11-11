@@ -80,6 +80,10 @@ ansible-inventory -i inventories/dev/hosts.yml --list
 ansible-playbook -vvv -i './inventories/dev/hosts.yml' \
   -e "ansible_become_password=pesto" \
   ./playbooks/monitoring/deploy.yml
+
+ansible-playbook -vvv -i './inventories/dev/hosts.yml' \
+  -e "ansible_become_password=pesto" \
+  ./playbooks/app/deploy.yml
 ```
 
 * And if you want to run it along with an ansible vault:
