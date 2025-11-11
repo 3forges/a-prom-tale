@@ -21,6 +21,7 @@ app_image_name: 'pestoapp'
 app_image_tag: 'dev-0.0.1'
 app_docker_network_alias: pestoapp
 app_service_port: 8080
+app_service_port_outside: 8880
 app_data_folder: /opt/pestoapp_data
 
 

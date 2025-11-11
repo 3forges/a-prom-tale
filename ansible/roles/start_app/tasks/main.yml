@@ -101,7 +101,7 @@
     #   - "/dev/sda:/dev/xvda:rwm"
     ports:
      # Publish container port {{ app_service_port }} as host port {{ app_service_port }} on 0.0.0.0
-      - "0.0.0.0:{{ app_service_port }}:{{ app_service_port }}"
+      - "0.0.0.0:{{ app_service_port_outside }}:{{ app_service_port }}"
     # volumes:
     #   - "{{ app_data_volume }}:{{ app_data_folder }}:Z" # SELinux
     # env:
