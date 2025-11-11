@@ -24,4 +24,4 @@ app_data_folder: /opt/pestoapp_data
 
 
 app_version: feature/prom/tomcat/real/case
-monitoring_stack_version: v9.0.0
+monitoring_stack_version: 9.0.0
