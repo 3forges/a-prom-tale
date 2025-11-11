@@ -81,7 +81,7 @@ docker run --name tomcat -itd \
 
 ```
 
-SO I had to find a way to install OpenJDK in a matching version on my dev machien and inside the tomcat container:
+So I had to find a way to install OpenJDK in a matching version on my dev machien and inside the tomcat container:
 
 * on my dev windows machine I found that `choco install microsoft-openjdk` will install an openjdk 21
 * and I found a tomcat with jdk21 : `10-jdk21-temurin-noble`
@@ -89,8 +89,6 @@ SO I had to find a way to install OpenJDK in a matching version on my dev machie
 Finally, I had to upgrade the version of the `jakarta.jakartaee-bom` artifact from `9.1.0` to `11.0.0` in the app `pom.xml`, and voilà.
 
 http://192.168.1.16:8888/pesto/
-
-
 
 ```bash
 

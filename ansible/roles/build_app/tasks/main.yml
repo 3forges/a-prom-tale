@@ -1,0 +1,118 @@
+---
+- name: Print fact os-distribution
+  ansible.builtin.debug:
+    var: os_type
+    verbosity: 2
+
+###>####
+###>####
+#### https://docs.ansible.com/projects/ansible/latest/collections/community/docker/docker_image_build_module.html
+###>####
+###>####
+
+################################################
+##### Validate Role Params
+- name: Validate Role Params
+  ansible.builtin.assert:
+    that:
+      - monitoring_docker_network is defined
+      - monitoring_docker_network is string
+      - monitoring_docker_network != ""
+      - app_image_name is defined
+      - app_image_name is string
+      - app_image_name != ""
+      - app_image_tag is defined
+      - app_image_tag is string
+      - app_image_tag != ""
+      - app_provisioning_ops_home is defined
+      - app_provisioning_ops_home is string
+      - app_provisioning_ops_home != ""
+      - operator_lx_user_name is defined
+      - operator_lx_user_name is string
+      - operator_lx_user_name != ""
+
+
+
+# - app_image_gun
+- name: Set app_image_gun from invocation param
+  ansible.builtin.set_fact:
+    app_image_gun: "{{ app_image_name }}:{{ app_image_tag }}"
+- name: Print app_image_gun
+  ansible.builtin.debug:
+    var: app_image_gun
+    verbosity: 2
+
+# - force_recreate
+- name: Set should_force_recreate from invocation param
+  ansible.builtin.set_fact:
+    should_force_recreate_noncased: "{{ force_recreate | default('false') }}"
+- name: Set should_force_recreate to lowercase
+  ansible.builtin.set_fact:
+    should_force_recreate: "{{ should_force_recreate_noncased | lower }}"
+- name: Print should_force_recreate
+  ansible.builtin.debug:
+    var: should_force_recreate
+    verbosity: 2
+
+# - app_provisioning_ops_home
+- name: Print app_provisioning_ops_home
+  ansible.builtin.debug:
+    var: app_provisioning_ops_home
+    verbosity: 2
+
+
+############################################
+##### Prepare APP Provisioning dir
+############################################
+##### 
+
+- name: Prepare APP Provisioning dir
+  become: true
+  ansible.builtin.file:
+    path: "{{ app_provisioning_ops_home }}"
+    state: directory
+    group: "{{ operator_lx_user_name }}"
+    owner: "{{ operator_lx_user_name }}"
+  register: prepare_app_provisioning_ops_home_dir_output
+- name: Print Output of Prepare APP Provisioning dir
+  ansible.builtin.debug:
+    var: prepare_app_provisioning_ops_home_dir_output
+    verbosity: 2
+
+- name: Retrieve the APP Code
+  # become: true
+  ansible.builtin.shell: |
+     export APP_CODE_TRIEVAL_TMPDIR=$(mktemp -d -t APP_CODE_TRIEVAL_XXXXXXXX)
+     git clone https://github.com/stefanprodan/dockprom.git ${APP_CODE_TRIEVAL_TMPDIR}
+     
+     cd ${APP_CODE_TRIEVAL_TMPDIR}
+     git checkout {{ app_version }}
+
+     cp -fR ${APP_CODE_TRIEVAL_TMPDIR}/app/pestoapp/* {{ monitoring_stack_home }}
+     
+  register: retrieve_the_app_code_output
+- name: Print retrieve_the_app_code_output
+  ansible.builtin.debug:
+    var: retrieve_the_app_code_output
+    verbosity: 2
+############################################
+##### Provision APP: Building Docker image
+############################################
+##### 
+- name: Build multi-platform APP Container Image
+  community.docker.docker_image_build:
+    name: "{{ app_image_name }}"
+    tag: "{{ app_image_tag }}"
+    path: "{{ monitoring_stack_home }}"
+    dockerfile: container/Dockerfile
+    # args:
+    #   SOME_VAR: "{{ some_var_value }}"
+    #   SOME_OTHER_VAR: "{{ some_other_var_value }}"
+    platform:
+      - linux/amd64
+      # - linux/arm64/v8
+  register: app_docker_build_command_output
+- name: Print Output of APP Docker Build command
+  ansible.builtin.debug:
+    var: app_docker_build_command_output
+    verbosity: 2

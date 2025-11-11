@@ -1,0 +1,53 @@
+
+################################################
+##### Validate Role Params
+- name: Validate Role Params
+  ansible.builtin.assert:
+    that:
+      - monitoring_docker_network is defined
+      - monitoring_docker_network is string
+      - monitoring_docker_network != ""
+      - monitoring_stack_home is defined
+      - monitoring_stack_home is string
+      - monitoring_stack_home != ""
+      - operator_lx_user_name is defined
+      - operator_lx_user_name is string
+      - operator_lx_user_name != ""
+      - "'{{ monitoring_stack_version }}' is version('9.0.0', 'ge', version_type='semver')"
+      # https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/version_test.html
+
+############################################
+##### Prepare Monitoring Stack dir
+############################################
+##### 
+
+- name: Prepare Monitoring Stack dir
+  become: true
+  ansible.builtin.file:
+    path: "{{ monitoring_stack_home }}"
+    state: directory
+    group: "{{ operator_lx_user_name }}"
+    owner: "{{ operator_lx_user_name }}"
+  register: prepare_monitoring_stack_home_dir_output
+
+- name: Print Output of Prepare Monitoring Stack dir
+  ansible.builtin.debug:
+    var: prepare_monitoring_stack_home_dir_output
+    verbosity: 2
+
+############################################
+##### Deploy The Monitoring Stack
+- name: Deploy The Monitoring Stack
+  # become: true
+  ansible.builtin.shell: |
+     git clone https://github.com/stefanprodan/dockprom.git {{ monitoring_stack_home }}
+     cd {{ monitoring_stack_home }}
+     git checkout {{ monitoring_stack_version }}
+     ADMIN_USER='admin' ADMIN_PASSWORD='admin' ADMIN_PASSWORD_HASH='$2a$14$1l.IozJx7xQRVmlkEQ32OeEEfP5mRxTpbDTCTcXRqn19gXD8YK1pO' docker-compose up -d
+  register: deploy_monitoring_stack_output
+- name: Print deploy_monitoring_stack_output
+  ansible.builtin.debug:
+    var: deploy_monitoring_stack_output
+    verbosity: 2
+
+

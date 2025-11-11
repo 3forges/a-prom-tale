@@ -1,0 +1,16 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <!-- see the proxy ARG and ENV in the Dockerfile -->
+    <!-- proxies>
+        <proxy>
+            <id>myacme-http-proxy</id>
+            <active>true</active>
+            <protocol>http</protocol>
+            <host>{{ ip_addr_of_your_http_proxy }}</host>
+            <port>{{ port_nb_of_your_http_proxy }}</port>
+            <username>demo-user</username>
+            <password>dummy-password</password>
+            <nonProxyHosts>*.myacme.com|*.someinternalservice.io|localhost|internal|local|127.0.0.1</nonProxyHosts>
+        </proxy>
+    </proxies -->
+</settings>

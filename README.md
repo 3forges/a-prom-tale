@@ -70,12 +70,21 @@ export ANSIBLE_CALLBACKS_ENABLED=profile_tasks
 export ANSIBLE_STDOUT_CALLBACK=yaml
 
 ansible-galaxy collection install --ignore-certs -r requirements.yml
-       
-        ansible-playbook -vvv -i './inventories/envs/${MICHELIN_ZONE_TRIGRAM}/${MICHELIN_ENVIRONMENT}/hosts.yml' \
-                       -e "michelin_zone_number=$MICHELIN_ZONE_NUMBER" \
-                       -e "michelin_zone_trigram=$MICHELIN_ZONE_TRIGRAM" \
-                       -e "michelin_environment_name=$MICHELIN_ENVIRONMENT" \
-                       --vault-password-file ~/vault.key.sh \
-                       ./playbooks/provision-awx/pre-playbook.yml
+
+cat <<EOF >~/vault.key.sh
+#!/bin/bash
+echo \$ANSIBLE_VAULT_MASTER_KEY
+EOF
+chmod +x ~/vault.key.sh
+
+# ---
+# Then all you need is to
+# set the value of the ANSIBLE_VAULT_MASTER_KEY
+# pipeline env. var. and you're good to go.
+
+ansible-playbook -vvv -i './inventories/dev/hosts.yml' \
+  -e "some_var=$VALUE_OF_SOME_VAR" \
+  --vault-password-file ~/vault.key.sh \
+  ./playbooks/monitoring/deploy.yml
 
 ```

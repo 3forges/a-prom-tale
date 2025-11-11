@@ -1,0 +1,30 @@
+---
+- name: Provision the APP
+  hosts: [all]
+  any_errors_fatal: true
+  gather_facts: false
+  roles:
+    # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- 
+    # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- 
+    # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- 
+    # --- 
+    # B.O.M.:
+    # ----
+    # Provisions the App, by:
+    # + Building APP Image
+    # + Creating and starting an APP container
+    # 
+    # 
+    - role: build_app
+    - role: start_app
+      force_recreate: true
+    # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- 
+    # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- 
+    # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- 
+    # # --- 
+    # # B.O.M.:
+    # # ----
+    # # Blablabla
+    # # + this
+    # # + that
+    # - role: myrole

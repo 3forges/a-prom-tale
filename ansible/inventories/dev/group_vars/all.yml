@@ -1,3 +1,27 @@
 ansible_connection: ssh
 ansible_user: pesto
 ansible_ssh_pass: pesto
+
+monitoring_docker_network: dockprom_monitor-net
+monitoring_stack_home: /opt/dockprom
+operator_lx_user_name: pesto
+
+
+maven_base_image_name: 'maven'
+maven_base_image_tag: '4.0.0-rc-4-eclipse-temurin-21-noble'
+tomcat_base_image_name: 'tomcat'
+tomcat_base_image_tag: '10-jdk21-temurin-noble'
+
+
+app_data_volume: pestoapp_data
+app_docker_network: pestoapp_net
+app_container_name: pestoapp
+app_image_name: 'pestoapp'
+app_image_tag: 'dev-0.0.1'
+app_docker_network_alias: pestoapp
+app_service_port: 8080
+app_data_folder: /opt/pestoapp_data
+
+
+app_version: feature/prom/tomcat/real/case
+monitoring_stack_version: v9.0.0
