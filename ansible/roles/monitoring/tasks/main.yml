@@ -45,6 +45,19 @@
     var: prepare_monitoring_stack_home_dir_output
     verbosity: 2
 
+- name: "Generate Prometheus config from Jinja2 templates"
+  become: true
+  ansible.builtin.template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      group: "{{ operator_lx_user_name }}"
+      owner: "{{ operator_lx_user_name }}"
+      force: true
+      backup: true
+  with_items:
+      - src: "./../../../templates/prometheus/prometheus.yml.j2"
+        dest: "{{ monitoring_stack_home }}/prometheus/prometheus.yml"
+
 ############################################
 ##### Deploy The Monitoring Stack
 - name: Deploy The Monitoring Stack

@@ -14,7 +14,9 @@
     # + Building APP Image
     # + Creating and starting an APP container
     # 
-    # 
+    # Inside the dreated container, you can check the tomcat exporter exposed metrics:
+    # -- 
+    # docker exec -it pestoapp bash -c 'curl http://127.0.0.1:8088/metrics'
     - role: build_app
     - role: start_app
       force_recreate: true
