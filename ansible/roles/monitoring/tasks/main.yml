@@ -17,6 +17,16 @@
       # https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/version_test.html
 
 ############################################
+##### Install required OS packages
+############################################
+##### 
+
+- name: Install git
+  ansible.builtin.package:
+    name: git
+    state: present
+
+############################################
 ##### Prepare Monitoring Stack dir
 ############################################
 ##### 

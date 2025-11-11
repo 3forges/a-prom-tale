@@ -92,6 +92,6 @@ ansible-playbook -vvv -i './inventories/dev/hosts.yml' \
 ansible-inventory -i inventories/dev/hosts.yml --list
 
 ansible-playbook -vvv -i './inventories/dev/hosts.yml' \
-  -e "some_var=$VALUE_OF_SOME_VAR" \
+  -e "ansible_become_password=pesto" \
   ./playbooks/monitoring/deploy.yml
 ```

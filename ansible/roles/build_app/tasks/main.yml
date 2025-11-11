@@ -62,6 +62,16 @@
 
 
 ############################################
+##### Install required OS packages
+############################################
+##### 
+
+- name: Install git
+  ansible.builtin.package:
+    name: git
+    state: present
+
+############################################
 ##### Prepare APP Provisioning dir
 ############################################
 ##### 
@@ -95,6 +105,7 @@
   ansible.builtin.debug:
     var: retrieve_the_app_code_output
     verbosity: 2
+
 ############################################
 ##### Provision APP: Building Docker image
 ############################################
