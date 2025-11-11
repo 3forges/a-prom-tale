@@ -57,6 +57,8 @@
   with_items:
       - src: "./../../../templates/prometheus/prometheus.yml.j2"
         dest: "{{ monitoring_stack_home }}/prometheus/prometheus.yml"
+      - src: "./../../../templates/grafana/dashboards/pestoapp_tomcat.json.j2"
+        dest: "{{ monitoring_stack_home }}/grafana/provisioning/dashboards/pestoapp_tomcat.json"
 
 ############################################
 ##### Deploy The Monitoring Stack
