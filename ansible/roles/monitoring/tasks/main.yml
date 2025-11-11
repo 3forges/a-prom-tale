@@ -13,7 +13,7 @@
       - operator_lx_user_name is defined
       - operator_lx_user_name is string
       - operator_lx_user_name != ""
-      - "'{{ monitoring_stack_version }}' is version('9.0.0', 'ge', version_type='semver')"
+      - monitoring_stack_version is version('9.0.0', 'ge', version_type='semver')
       # https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/version_test.html
 
 ############################################

@@ -56,6 +56,8 @@ docker exec -w /runner/src -it ${RUNNER_NAME} bash -c 'ansible --version'
 
 docker exec -w /runner/src -it ${RUNNER_NAME} bash -c 'ansible-playbook --version'
 
+docker exec -w /runner/src -it ${RUNNER_NAME} bash -c 'ansible-galaxy --version'
+
 docker exec -w /runner/src -it ${RUNNER_NAME} bash -c 'ansible-inventory --version'
 
 docker exec -w /runner/src -it ${RUNNER_NAME} bash -c 'ansible-vault --version'
@@ -87,6 +89,7 @@ ansible-playbook -vvv -i './inventories/dev/hosts.yml' \
   --vault-password-file ~/vault.key.sh \
   ./playbooks/monitoring/deploy.yml
 
+ansible-inventory -i inventories/dev/hosts.yml --list
 
 ansible-playbook -vvv -i './inventories/dev/hosts.yml' \
   -e "some_var=$VALUE_OF_SOME_VAR" \
