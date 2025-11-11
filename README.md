@@ -44,13 +44,60 @@ export AWXEE_IMG_GUN="quay.io/ansible/awx-ee:${AWXEE_IMG_TAG}"
 export RUNNER_NAME="ansible_lab"
 export OPS_HOME="/opt/.apromtale.ops/"
 
-
+# docker stop  ${RUNNER_NAME} && docker rm  ${RUNNER_NAME}
 
 docker pull "${AWXEE_IMG_GUN}"
 
 cd ${OPS_HOME}
 
-docker run --name ${RUNNER_NAME} -itd --restart unless-stopped -v $PWD:/runner/src:rw ${AWXEE_IMG_GUN} bash
+docker run --name ${RUNNER_NAME} -itd --restart unless-stopped -v $PWD/ansible:/runner/src:rw ${AWXEE_IMG_GUN} bash
+
+docker exec -w /runner/src -it ${RUNNER_NAME} bash -c 'ansible --version'
+
+docker exec -w /runner/src -it ${RUNNER_NAME} bash -c 'ansible-playbook --version'
+
+docker exec -w /runner/src -it ${RUNNER_NAME} bash -c 'ansible-galaxy --version'
+
+docker exec -w /runner/src -it ${RUNNER_NAME} bash -c 'ansible-inventory --version'
+
+docker exec -w /runner/src -it ${RUNNER_NAME} bash -c 'ansible-vault --version'
+
+
+# ---
+# execute the playbook
+export ANSIBLE_ROLES_PATH="roles"
+export ANSIBLE_PLAYBOOK_DIR="playbooks"
+export ANSIBLE_HOST_KEY_CHECKING= 'False'
+export ANSIBLE_CALLBACKS_ENABLED=profile_tasks
+export ANSIBLE_STDOUT_CALLBACK=yaml
+
+ansible-galaxy collection install --ignore-certs -r requirements.yml
+
+# ---
+# 
+ansible-inventory -i inventories/dev/hosts.yml --list
+
+ansible-playbook -vvv -i './inventories/dev/hosts.yml' \
+  -e "ansible_become_password=pesto" \
+  ./playbooks/monitoring/deploy.yml
+```
+
+* And if you want to run it along with an ansible vault:
+
+```bash
+
+export AWXEE_IMG_TAG='24.6.1'
+export AWXEE_IMG_GUN="quay.io/ansible/awx-ee:${AWXEE_IMG_TAG}"
+export RUNNER_NAME="ansible_lab"
+export OPS_HOME="/opt/.apromtale.ops/"
+
+# docker stop  ${RUNNER_NAME} && docker rm  ${RUNNER_NAME}
+
+docker pull "${AWXEE_IMG_GUN}"
+
+cd ${OPS_HOME}
+
+docker run --name ${RUNNER_NAME} -itd --restart unless-stopped -v $PWD/ansible:/runner/src:rw ${AWXEE_IMG_GUN} bash
 
 docker exec -w /runner/src -it ${RUNNER_NAME} bash -c 'ansible --version'
 
